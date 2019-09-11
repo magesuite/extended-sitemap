@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magesuite" translate="label" sortOrder="300">
+            <label>MageSuite</label>
+        </tab>
+        <section id="extended_sitemap" translate="label" type="text" sortOrder="310" showInDefault="1">
+            <label>Extended Sitemap</label>
+            <tab>magesuite</tab>
+            <resource>MageSuite_ExtendedSitemap::config_sitemap</resource>
+            <group id="configuration" translate="label" type="text" sortOrder="1" showInDefault="1">
+                <label>Configuration</label>
+                <field id="additional_links_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Additional Links enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="additional_links" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Additional links</label>
+                    <frontend_model>MageSuite\ExtendedSitemap\Block\System\Form\Field\AdditionalLinks</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>Path have to be without domain, for example for "site.com/contact" correct value is "/contact"</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
