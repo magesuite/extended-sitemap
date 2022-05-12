@@ -14,15 +14,13 @@ class AdditionalLinksTest extends \PHPUnit\Framework\TestCase
      */
     protected $additionalLinksProvider;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
-
         $this->additionalLinksProvider = $this->objectManager->get(\MageSuite\ExtendedSitemap\Model\ItemProvider\AdditionalLinks::class);
     }
 
     /**
-     * @magentoAppArea frontend
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      * @magentoConfigFixture current_store extended_sitemap/configuration/additional_links_enabled 1
@@ -35,26 +33,26 @@ class AdditionalLinksTest extends \PHPUnit\Framework\TestCase
                 'url' => '/home',
                 'priority' => '0.5',
                 'changeFrequency' => 'daily',
-                'images' => NULL,
-                'updatedAt' => NULL
+                'images' => null,
+                'updatedAt' => null
             ],
             1 => [
                 'url' => '/contact',
                 'priority' => '0.25',
                 'changeFrequency' => 'weekly',
-                'images' => NULL,
-                'updatedAt' => NULL
+                'images' => null,
+                'updatedAt' => null
             ],
             2 => [
                 'url' => '/',
                 'priority' => '1',
                 'changeFrequency' => 'monthly',
-                'images' => NULL,
-                'updatedAt' => NULL
+                'images' => null,
+                'updatedAt' => null
             ]
         ];
+        $items = $this->additionalLinksProvider->getItems(1);
 
-        $items = $this->additionalLinksProvider->getItems(0);
         foreach ($items as $index => $item) {
             $this->assertEquals($expectedItems[$index]['url'], $item->getUrl());
             $this->assertEquals($expectedItems[$index]['priority'], $item->getPriority());
