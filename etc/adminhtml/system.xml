@@ -4,13 +4,13 @@
         <tab id="magesuite" translate="label" sortOrder="300">
             <label>MageSuite</label>
         </tab>
-        <section id="extended_sitemap" translate="label" type="text" sortOrder="310" showInDefault="1">
+        <section id="extended_sitemap" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Extended Sitemap</label>
             <tab>magesuite</tab>
             <resource>MageSuite_ExtendedSitemap::config_sitemap</resource>
-            <group id="configuration" translate="label" type="text" sortOrder="1" showInDefault="1">
+            <group id="configuration" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuration</label>
-                <field id="additional_links_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="additional_links_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Additional Links enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>

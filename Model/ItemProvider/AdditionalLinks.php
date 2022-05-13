@@ -1,14 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace MageSuite\ExtendedSitemap\Model\ItemProvider;
 
 class AdditionalLinks implements \Magento\Sitemap\Model\ItemProvider\ItemProviderInterface
 {
-    /**
-     * @var \Magento\Sitemap\Model\ItemProvider\CmsPageConfigReader
-     */
-    protected $cmsPageConfigReader;
-
     /**
      * @var \Magento\Sitemap\Model\SitemapItemInterfaceFactory
      */
@@ -20,23 +16,22 @@ class AdditionalLinks implements \Magento\Sitemap\Model\ItemProvider\ItemProvide
     protected $configuration;
 
     public function __construct(
-        \Magento\Sitemap\Model\ItemProvider\CmsPageConfigReader $cmsPageConfigReader,
         \Magento\Sitemap\Model\SitemapItemInterfaceFactory $itemFactory,
         \MageSuite\ExtendedSitemap\Helper\Configuration $configuration
     ) {
-        $this->cmsPageConfigReader = $cmsPageConfigReader;
         $this->itemFactory = $itemFactory;
         $this->configuration = $configuration;
     }
-    
-    public function getItems($storeId)
+
+    public function getItems($storeId): array
     {
-        if (!$this->configuration->isEnabled()) {
+        if (!$this->configuration->isEnabled($storeId)) {
             return [];
         }
 
         $items = [];
-        $additionalLinks = $this->configuration->getAdditionalLinks();
+        $additionalLinks = $this->configuration->getAdditionalLinks($storeId);
+
         foreach ($additionalLinks as $additionalLink) {
             $items[] = $this->itemFactory->create([
                 'url' => $additionalLink['path'],
