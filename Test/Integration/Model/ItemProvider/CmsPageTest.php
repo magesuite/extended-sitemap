@@ -25,13 +25,14 @@ class CmsPageTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetItemsWithExcluded()
     {
-        $expectedItems = $this->getExpectedItems([444,555]);
+        $excludedIds = [444, 555];
+        $expectedItems = $this->getExpectedItems($excludedIds);
         $items = $this->cmsPageProvider->getItems(self::DEFAULT_STORE_ID);
-        $this->assertExpectedItems($expectedItems, $items);
+        $this->assertExpectedItems($items, $expectedItems, $excludedIds);
 
         $storeId = $this->storeRepository->get(self::SECOND_STORE_CODE)->getId();
         $items = $this->cmsPageProvider->getItems($storeId);
-        $this->assertExpectedItems($expectedItems, $items);
+        $this->assertExpectedItems($items, $expectedItems, $excludedIds);
     }
 
     /**
@@ -41,28 +42,30 @@ class CmsPageTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetItemsWithNoneExcluded()
     {
-        $expectedItemsDefaultStore = $this->getExpectedItems([555]);
+        $excludedIds = [555];
+        $expectedItemsDefaultStore = $this->getExpectedItems($excludedIds);
         $items = $this->cmsPageProvider->getItems(self::DEFAULT_STORE_ID);
-        $this->assertExpectedItems($expectedItemsDefaultStore, $items);
+        $this->assertExpectedItems($items, $expectedItemsDefaultStore, $excludedIds);
 
         $expectedItemsSecondStore = $this->getExpectedItems();
         $storeId = $this->storeRepository->get(self::SECOND_STORE_CODE)->getId();
         $items = $this->cmsPageProvider->getItems($storeId);
-        $this->assertExpectedItems($expectedItemsSecondStore, $items);
+        $this->assertExpectedItems($items, $expectedItemsSecondStore, []);
     }
 
-    protected function assertExpectedItems(array $expectedItems, array $items): void
+    protected function assertExpectedItems(array $items, array $expectedItems, array $excludedIds): void
     {
-        foreach ($items as $index => $item) {
-            if ($item->getUrl() === 'privacy-policy-cookie-restriction-mode') {
-                unset($items[$index]);
-                continue;
-            }
+        foreach ($expectedItems as $id => $expectedItem) {
+            $this->assertArrayHasKey($id, $items);
+            $item = $items[$id];
+            $this->assertEquals($expectedItem['url'], $item->getUrl());
+            $this->assertEquals($expectedItem['priority'], $item->getPriority());
+            $this->assertEquals($expectedItem['changeFrequency'], $item->getChangeFrequency());
+            $this->assertEquals($expectedItem['images'], $item->getImages());
+        }
 
-            $this->assertEquals($expectedItems[$index]['url'], $item->getUrl());
-            $this->assertEquals($expectedItems[$index]['priority'], $item->getPriority());
-            $this->assertEquals($expectedItems[$index]['changeFrequency'], $item->getChangeFrequency());
-            $this->assertEquals($expectedItems[$index]['images'], $item->getImages());
+        foreach ($excludedIds as $id => $data) {
+            $this->assertArrayNotHasKey($id, $items);
         }
     }
 
@@ -70,19 +73,19 @@ class CmsPageTest extends \PHPUnit\Framework\TestCase
     {
         $expectedItems = [
             333 => [
-                'url' => 'page100',
+                'url' => 'page333',
                 'priority' => '0.25',
                 'changeFrequency' => 'daily',
                 'images' => null
             ],
             444 => [
-                'url' => 'page_design_blank',
+                'url' => 'page444',
                 'priority' => '0.25',
                 'changeFrequency' => 'daily',
                 'images' => null
             ],
             555 => [
-                'url' => 'page_second_store',
+                'url' => 'page555',
                 'priority' => '0.25',
                 'changeFrequency' => 'daily',
                 'images' => null

@@ -25,16 +25,11 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetItemsWithExcluded()
     {
-        $expectedItems = $this->getExpectedItems([333]);
-
+        $excludedCategoryIds = [333];
+        $expectedItems = $this->getExpectedItems($excludedCategoryIds);
         $items = $this->categoryProvider->getItems(self::DEFAULT_STORE_ID);
 
-        foreach ($items as $index => $item) {
-            $this->assertEquals($expectedItems[$index]['url'], $item->getUrl());
-            $this->assertEquals($expectedItems[$index]['priority'], $item->getPriority());
-            $this->assertEquals($expectedItems[$index]['changeFrequency'], $item->getChangeFrequency());
-            $this->assertEquals($expectedItems[$index]['images'], $item->getImages());
-        }
+        $this->assertExpectedCategories($items, $expectedItems, $excludedCategoryIds);
     }
 
     /**
@@ -44,17 +39,12 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetItemsWithExcludedFromSecondStore()
     {
-        $excludedCategoryIds = [333,444];
+        $excludedCategoryIds = [333, 444];
         $expectedItems = $this->getExpectedItems($excludedCategoryIds);
-
         $storeId = $this->storeRepository->get(self::SECOND_STORE_CODE)->getId();
         $items = $this->categoryProvider->getItems($storeId);
 
-        foreach ($items as $index => $item) {
-            $this->assertEquals($expectedItems[$index]['priority'], $item->getPriority());
-            $this->assertEquals($expectedItems[$index]['changeFrequency'], $item->getChangeFrequency());
-            $this->assertEquals($expectedItems[$index]['images'], $item->getImages());
-        }
+        $this->assertExpectedCategories($items, $expectedItems, $excludedCategoryIds);
     }
 
     /**
@@ -64,14 +54,25 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetItemsWithNoneExcluded()
     {
-        $expectedItems = $this->getExpectedItems([333,444]);
+        $excludedCategoryIds = [333, 444];
+        $expectedItems = $this->getExpectedItems($excludedCategoryIds);
         $items = $this->categoryProvider->getItems(self::DEFAULT_STORE_ID);
 
-        foreach ($items as $index => $item) {
-            $this->assertEquals($expectedItems[$index]['url'], $item->getUrl());
-            $this->assertEquals($expectedItems[$index]['priority'], $item->getPriority());
-            $this->assertEquals($expectedItems[$index]['changeFrequency'], $item->getChangeFrequency());
-            $this->assertEquals($expectedItems[$index]['images'], $item->getImages());
+        $this->assertExpectedCategories($items, $expectedItems, $excludedCategoryIds);
+    }
+
+    protected function assertExpectedCategories(array $items, array $expectedItems, array $excludedIds): void
+    {
+        foreach ($expectedItems as $id => $expectedItem) {
+            $this->assertArrayHasKey($id, $items);
+            $item = $items[$id];
+            $this->assertEquals($expectedItem['priority'], $item->getPriority());
+            $this->assertEquals($expectedItem['changeFrequency'], $item->getChangeFrequency());
+            $this->assertEquals($expectedItem['images'], $item->getImages());
+        }
+
+        foreach ($excludedIds as $id => $data) {
+            $this->assertArrayNotHasKey($id, $items);
         }
     }
 
@@ -79,25 +80,25 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
     {
         $expectedItems = [
             111 => [
-                'url' => 'category-1.html',
+                'url' => 'category-111.html',
                 'priority' => '0.5',
                 'changeFrequency' => 'daily',
                 'images' => null
             ],
             222 => [
-                'url' => 'category-2.html',
+                'url' => 'category-222.html',
                 'priority' => '0.5',
                 'changeFrequency' => 'daily',
                 'images' => null
             ],
             333 => [
-                'url' => 'category-3.html',
+                'url' => 'category-333.html',
                 'priority' => '0.5',
                 'changeFrequency' => 'daily',
                 'images' => null
             ],
             444 => [
-                'url' => 'category-4.html',
+                'url' => 'category-444.html',
                 'priority' => '0.5',
                 'changeFrequency' => 'daily',
                 'images' => null

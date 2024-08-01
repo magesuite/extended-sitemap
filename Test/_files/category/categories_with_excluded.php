@@ -8,7 +8,7 @@ $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $category->isObjectNew(true);
 $category->setId(333)
     ->setCreatedAt('2024-07-18 09:00:00')
-    ->setName('Category 3')
+    ->setName('Category 333')
     ->setParentId(2)
     ->setPath('1/2/333')
     ->setLevel(2)
@@ -23,7 +23,7 @@ $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $category->isObjectNew(true);
 $category->setId(444)
     ->setCreatedAt('2024-07-18 09:00:00')
-    ->setName('Category 4')
+    ->setName('Category 444')
     ->setParentId(2)
     ->setPath('1/2/444')
     ->setLevel(2)
