@@ -1,0 +1,10 @@
+{
+    "cms_page": {
+        "column": {
+            "is_excluded_from_sitemap": true
+        },
+        "index": {
+            "CMS_PAGE_IS_EXCLUDED_FROM_SITEMAP": true
+        }
+    }
+}
