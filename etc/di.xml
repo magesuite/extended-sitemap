@@ -7,4 +7,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sitemap\Model\ItemProvider\Category">
+        <plugin name="exclude_categories_from_sitemap" type="MageSuite\ExtendedSitemap\Plugin\Magento\Sitemap\Model\ItemProvider\ExcludeCategoriesFromSitemap" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sitemap\Model\ItemProvider\Product">
+        <plugin name="exclude_products_from_sitemap" type="MageSuite\ExtendedSitemap\Plugin\Magento\Sitemap\Model\ItemProvider\ExcludeProductsFromSitemap" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sitemap\Model\ItemProvider\CmsPage">
+        <plugin name="exclude_cms_pages_from_sitemap" type="MageSuite\ExtendedSitemap\Plugin\Magento\Sitemap\Model\ItemProvider\ExcludeCmsPagesFromSitemap" sortOrder="100"/>
+    </type>
 </config>
