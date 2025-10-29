@@ -11,6 +11,7 @@ $category->setId(111)
     ->setDefaultSortBy('name')
     ->setIsActive(true)
     ->setPosition(1)
+    ->setStoreId(0)
     ->save();
 
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(\Magento\Catalog\Model\Category::class);
@@ -25,4 +26,5 @@ $category->setId(222)
     ->setDefaultSortBy('name')
     ->setIsActive(true)
     ->setPosition(1)
+    ->setStoreId(0)
     ->save();

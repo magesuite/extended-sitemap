@@ -17,6 +17,7 @@ $category->setId(333)
     ->setIsActive(true)
     ->setPosition(1)
     ->setIsExcludedFromSitemap(true)
+    ->setStoreId(0)
     ->save();
 
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(\Magento\Catalog\Model\Category::class);
@@ -32,6 +33,7 @@ $category->setId(444)
     ->setIsActive(true)
     ->setPosition(1)
     ->setIsExcludedFromSitemap(false)
+    ->setStoreId(0)
     ->save();
 
 $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(\Magento\Store\Model\StoreManagerInterface::class);
